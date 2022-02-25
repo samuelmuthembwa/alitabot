@@ -175,11 +175,7 @@ const startSock = async() => {
 		const { connection, lastDisconnect } = update
 		if(connection === 'close') {
 			// reconnect if not logged out
-			if((lastDisconnect.error )?.output?.statusCode !== DisconnectReason.loggedOut) {
-				startSock()
-			} else {
-				console.log('🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦 = Connectin Closed = 🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦🚦')
-			}
+			startSock()
 		}
         
 		console.log('connection update', update)
