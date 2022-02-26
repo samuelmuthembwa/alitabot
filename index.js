@@ -9,13 +9,14 @@ const cheerio = require('cheerio')
 const request = require('request')
 //Functions
 const {yta, ytv} =require('./lib/ytdl')
+const {graffiti} = require('./lib/textmaker')
 
 //Constants
 const {btnFooter} = require('./lib/constants')
 const {name} = require('./AlitaBot/Bot')
 const commandlist = require('./AlitaBot/commands.json')
 const makeWASocket = require('@adiwajshing/baileys').default;
-const  { AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, useSingleFileAuthState } =require('@adiwajshing/baileys');
+const  { AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, useSingleFileAuthState, MessageType, MessageOptions, Mimetype } =require('@adiwajshing/baileys');
 
 // the store maintains the data of the WA connection in memory
 // can be written out to a file & read from it
@@ -73,6 +74,50 @@ const startSock = async() => {
             let msg_array = m.message.conversation.split(' ');
             let command = m.message.conversation.split(' ')[0].replace("'", '');
             switch (command) {
+                case "!graffiti":
+                    if(msg_array.length <  3)
+                    {
+                        sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  😃 Command should be followed by style and name." })
+                    }
+                    else 
+                    {
+                        let style = m.message.conversation.split(' ')[1].replace("'", '');
+                        let name = m.message.conversation.split(' ')[2].replace("'", '');
+                        graffiti(style, name)
+                        .then((res)=>{
+                            console.log("Got Img: "+res.data)
+                            try {
+                                let img_path = (Math.random() + 1).toString(36).substring(7)+".jpg";
+                                let stream = fs.createWriteStream(img_path);
+                                request(res.data).pipe(stream);
+                                stream.on('finish', ()=>{
+                                    console.log("Download complete")
+                                    const buttons = [
+                                        {buttonId: 'btnGraffiti', buttonText: {displayText: '🍃 Graffiti List'}, type: 1},
+                                      ]
+                                      
+                                      const buttonMessage = {
+                                          image: {url: res.data},
+                                          caption: "「「  👸🏾 *Alita Bot* 💚❤️ 」」\n🍃🍃🍃🍃🍃🍃🍃🍃",
+                                          footerText: btnFooter,
+                                          buttons: buttons,
+                                          headerType: 4
+                                      }
+                                      
+                                      sock.sendMessage(m.key.remoteJid, buttonMessage).then(()=>{
+                                        fs.unlinkSync(img_path)
+                                    })
+                                })
+                            } catch (error) {
+                                console.log("Err Image"+ error)
+                            }
+                        })
+                        .catch((err)=>{
+                            console.log("Err "+err)
+                        })
+        
+                    }
+                break;
                 case "!lyrics":
                     if(msg_array.length === 1)
                     {
@@ -332,6 +377,9 @@ const startSock = async() => {
             let btn_response = m.message.buttonsResponseMessage.selectedButtonId;
 
             switch (btn_response) {
+                case "btnGraffiti":
+                    sock.sendMessage(m.key.remoteJid, {text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n🍃 Graffiti Options\n1: sand\n2: beach\n3: leaves\n4: blood\n5: graffiti\n6: graffitti_second"})
+                break;
                 case "alivebtncall":
                 case "alivebtntext":
                     contact()
