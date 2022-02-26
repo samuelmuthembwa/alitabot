@@ -5,7 +5,8 @@ const axios = require('axios')
 const readline = require('readline')
 const ytdl = require('ytdl-core')
 const yts = require('yt-search')
-
+const cheerio = require('cheerio')
+const request = require('request')
 //Functions
 const {yta, ytv} =require('./lib/ytdl')
 
@@ -45,7 +46,7 @@ const startSock = async() => {
 		// implement to handle retries
 		getMessage: async key => {
 			return {
-				conversation: 'hello'
+				
 			}
 		}
 	})
@@ -67,9 +68,187 @@ const startSock = async() => {
         const messageType = Object.keys (m.message)[0]// get what type of message it is -- text, image, video
         //Normal commands
         if(m.message.hasOwnProperty('conversation'))
-        {   let msg_array = m.message.conversation.split(' ');
+        {   
+            
+            let msg_array = m.message.conversation.split(' ');
             let command = m.message.conversation.split(' ')[0].replace("'", '');
             switch (command) {
+                case "!lyrics":
+                    if(msg_array.length === 1)
+                    {
+                        sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  😃 Give me a song title." })
+                    }
+                    else
+                    {
+                        if(msg_array.length !== 1)
+                        {
+                            let title_array = [];
+                            for(var i = 1; i<msg_array.length; i++)
+                            {
+                                title_array.push(msg_array[i]);
+                            }
+                            let search_term = title_array.join(" ");
+                            console.log("\n\n"+search_term+"\n\n")
+                            async function lyrics (query){
+                                let link = "https://www.musixmatch.com/search/"+query;
+                                console.log("\n\n"+link+"\n\n"),
+                                axios({
+                                    
+                                    method: 'get',
+                                    url: link
+                                }).then((res)=>{
+                                   
+                                    let $ = cheerio.load(res.data)
+                                    let mainpage_url = $("#site").find("div > div > div > div > div > div > div > div > div ")
+                                    return link = `https://www.musixmatch.com` + $(mainpage_url).find('h2 > a').attr('href')
+                                    
+                                }).then((res)=>{
+                                    axios({
+                                        method: 'get',
+                                        url: link
+                                    }).then((res)=>{
+                                        let $ = cheerio.load(res.data)
+                                        let lyrics_data = $('#site').find('.mxm-lyrics__content > .lyrics__content__ok').text()
+                                        console.log("\nLyrics data: "+lyrics_data)
+                                        sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 🧡❤ 」」\n\n*Lyrics Search Engine*\n"+lyrics_data});
+                                    })
+                                    .catch((err)=>{
+                                       
+                                        sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 🧡❤ 」」\n\n 😒 No Lyrics found."})
+                                    })
+                                }).catch((err)=>{
+                                    
+                                    sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 🧡❤ 」」\n\n 😒 No Lyrics found."})
+                                })
+                            }
+                            lyrics(search_term)
+                            .catch(()=>{
+                                sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 🧡❤ 」」\n\n 😒 No Lyrics founds."})
+                            })
+                        }
+                        
+                    }
+
+                break;
+                case "!dict":
+                    if(msg_array.length === 1)
+                    {
+                        sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  😃 Give me a world." })
+                    }
+                    else
+                    {
+                        if(msg_array.length !== 1)
+                        {
+                            let query_word = m.message.conversation.split(' ')[1].replace("'", ''); 
+                            var dictionary_api_url = `https://api.dictionaryapi.dev/api/v2/entries/en/${query_word}`;
+                            try {
+                                request(dictionary_api_url, function(err,response,  body){
+                                    if(err)
+                                    {
+                                        sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  🆘 Internal Server Error!" })
+                                    }else
+                                    {
+                                        
+                                        let parsed = JSON.parse(body);
+                                        let phonetic = "";
+                                        let audio_url = "";
+                                        if(parsed instanceof Array)
+                                        {
+                                            
+                                            if(typeof parsed[0].phonetic !== "undefined")
+                                            {
+                                                phonetic = parsed[0].phonetic;
+                                            }
+                                            if(parsed[0].phonetics.length > 0)
+                                            {
+                                                let audio_url_chunk = parsed[0].phonetics[0].audio;
+                                                audio_url = audio_url_chunk;
+                                                if(typeof audio_url_chunk !== "undefined")
+                                                {
+                                                    
+                                                sendAudio(audio_url);
+                                                }else{
+                                                    sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n 🔇 Voice note not available." })
+                                                }
+                                            }
+                                            
+                                            let array_res =[];
+                                            for(var i=0; i<parsed[0].meanings.length; i++)
+                                            {
+                                                var partOfSpeech = "*"+parsed[0].meanings[i].partOfSpeech.toUpperCase()+"*: ";
+                                                var definition = parsed[0].meanings[i].definitions[0].definition;
+                                                array_res.push([partOfSpeech, definition])
+                                            }
+                                            for(var i = 0; i<array_res.length; i++)
+                                            {
+                                                array_res[i].join(" ");
+                                            }
+                                            let sentence = "";
+                                            for(var i = 0; i<array_res.length; i++)
+                                            {
+                                                sentence +=array_res[i]+"\n";
+                                            }
+                                            sock.sendMessage(m.key.remoteJid, {text:"\n「「   👸🏾 *Alita Bot* 🧡❤   」」\n\n"+"🔍 Search term: "+query_word.toUpperCase()+"\n\n🔊 *PHONETIC:* "+phonetic+"\n"+sentence})
+                                           
+                                            
+                                        }else{
+                                            sock.sendMessage(m.key.remoteJid, {text:"\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n🚧 No Definitions Found.\n😒 Try again later."});
+                                        }
+                                        async function sendAudio(audio_url)
+                                        {
+                                            if(typeof audio_url !== "undefined")
+                                            {
+                                                let vn_path = (Math.random() + 1).toString(36).substring(7)+".mp3";
+                                                let stream = fs.createWriteStream(vn_path);
+
+                                                try {
+                                                    axios({
+                                                        method: "get",
+                                                        url: audio_url,
+                                                        responseType: "stream"
+                                                    }).then((response)=>{
+                                                        response.data.pipe(stream);
+                                                        stream.on('finish', ()=>{
+                                                            let path = vn_path;
+                                                            let jid = m.key.remoteJid;
+                                                            sendAudio(path, jid)
+                                                            async function sendAudio(path, jid)
+                                                            {
+                                                                await sock.sendMessage(
+                                                                    jid, 
+                                                                    { audio: { url: path }, mimetype: 'audio/mp4' }
+                                                                    // { url: "Media/audio.mp3" }, // can send mp3, mp4, & ogg
+                                                                ).then(()=>{
+                                                                    fs.unlinkSync(vn_path)
+                                                                })
+                                                            }
+                                                        })
+                                                    })
+                                                    .catch(()=>{
+                                                        console.log("\n\n"+"No Voice Note"+"\n\n");
+                                                        fs.unlinkSync(vn_path)
+                                                    })
+                                             
+                                                } catch (error) {
+                                                    console.log("Voice note downoad error.")
+                                                }
+                                            }
+                                            else{
+                   
+                                                sock.sendMessage(m.key.remoteJid, {text:"\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n ⚠️ Could not fetch audio!"});
+                                            }  
+                                        }
+                                    }
+                                });
+                            } catch (error) {
+                                sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  🆘 Internal Server Error!" })
+                            }
+                        }
+
+
+                    }
+
+                break;
                 case"!ytsearch":
                     if(msg_array.length === 1)
                     {
@@ -364,8 +543,8 @@ const startSock = async() => {
         async function contact()
         {
             const templateButtons = [
-                {index: 1, urlButton: {displayText: '⭐ Star AlitaBot on GitHub!', url: 'https://github.com/samuelmunyoki/Alita-Bot'}},
-                {index: 2, callButton: {displayText: 'Call me!', phoneNumber: '+254 7594 39032'}},
+                {index: 1, urlButton: {displayText: '💬 DM Now', url: 'https://wa.me/254759439032'}},
+                {index: 2, callButton: {displayText: 'Call me', phoneNumber: '+254 7594 39032'}},
                 {index: 2, callButton: {displayText: 'Save My Number 😍', phoneNumber: '+254 7594 39032'}},
             ]
             
