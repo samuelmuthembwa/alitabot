@@ -1,0 +1,32 @@
+{
+    "ytsearch":{
+        "name": "!ytsearch\n",
+        "desc": "*Description* :This command is used to do a Youtube search",
+        "Usage": "*Usage*: !ytsearch anythingToSearchHere"
+    },
+    "play":{
+        "name": "!play\n",
+        "desc": "*Description* :This command is used to do download Youtube audio fronm a give link",
+        "Usage": "*Usage*: !play youtubeLinkHere"
+    },
+    "wiki":{
+        "name": "!wiki\n",
+        "desc": "*Description* :This command is used to Search for official wikipedia links.",
+        "Usage": "*Usage*: !wiki anythingToSearchHere"
+    },
+    "speed":{
+        "name": "!speed\n",
+        "desc": "*Description* :This command is used to perform a Speedtest",
+        "Usage": "*Usage*: !speed"
+    },
+    "help":{
+        "name": "!help\n",
+        "desc": "*Description* :This command is used to display alist of commands.",
+        "Usage": "*Usage*: !help"
+    },
+    "alive":{
+        "name": "!alive\n",
+        "desc": "*Description* :This command checks if Alita is awake",
+        "Usage": "*Usage*: !alive"
+    }
+}
