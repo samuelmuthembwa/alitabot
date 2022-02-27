@@ -501,7 +501,7 @@ const startSock = async() => {
                             {buttonId: 'ytcancel', buttonText: {displayText: '🗑️ Cancel'}, type: 1},
                         ]
                         const ytbuttonsDownloadMessage = {
-                            text: `sock.sendMessage(m.key.remoteJid, {text: data}) ☘️ Select conversion option: `,
+                            text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n ☘️ Select conversion option: ",
                             footer: btnFooter,
                             buttons: ytbuttonsDownload,
                             headerType: 1
