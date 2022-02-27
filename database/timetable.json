@@ -1,0 +1,87 @@
+{
+    "monday":{
+        "1":{
+            "unit": "Research Methodology",
+            "lec": "D. Kiiru",
+            "room": "EG-28"
+        },
+        "2":{
+            "unit": "",
+            "lec": "",
+            "room": ""
+        },
+        "3":{
+            "unit": "Automata and Languages",
+            "lec": "J Liech",
+            "room": "Pref-4-01"
+        }
+    },
+    "tuesday":{
+        "1":{
+            "unit": "Design and Analysis of Algo.",
+            "lec": "Dr. Ngari",
+            "room": "Pref-4-01"
+        },
+        "2":{
+            "unit": "",
+            "lec": "",
+            "room": ""
+        },
+        "3":{
+            "unit": "Web Based Programming",
+            "lec": "K. Kariuki",
+            "room": "KOREA 2 LAB"
+        }
+    },
+    "wednesday":{
+        "1":{
+            "unit": "Human Computer Interface",
+            "lec": "J. Walubengo",
+            "room": "KOREA 1 LAB"
+        },
+        "2":{
+            "unit": "Computer Graphics",
+            "lec": "Mr. Ndithi",
+            "room": "LAB B-07"
+        },
+        "3":{
+            "unit": "Web Based Programming",
+            "lec": "K. Kariuki",
+            "room": "LAB A-06"
+        }
+    },
+    "thurday":{
+        "1":{
+            "unit": "Distributed Systems",
+            "lec": "Ms. L. Mwaura",
+            "room": "LAB E-02"
+        },
+        "2":{
+            "unit": "Computer Graphics",
+            "lec": "MR. Ndithi",
+            "room": "EG-32"
+        },
+        "3":{
+            "unit": "SA and Architectural Design",
+            "lec": "J. Muniu",
+            "room": "A-04"
+        }
+    },
+    "friday":{
+        "1":{
+            "unit": "",
+            "lec": "",
+            "room": ""
+        },
+        "2":{
+            "unit": "Design and Analysis of Algo.",
+            "lec": "Dr. Ngari",
+            "room": "LAB E-02"
+        },
+        "3":{
+            "unit": "Research Methodology",
+            "lec": "Mr. Kiiru",
+            "room": "LAB KOREA 2"
+        }
+    }
+}

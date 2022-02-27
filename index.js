@@ -15,6 +15,7 @@ const {graffiti} = require('./lib/textmaker')
 const {btnFooter} = require('./lib/constants')
 const {name} = require('./AlitaBot/Bot')
 const commandlist = require('./AlitaBot/commands.json')
+const tm = require('./database/timetable.json')
 const makeWASocket = require('@adiwajshing/baileys').default;
 const  { AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, useSingleFileAuthState, MessageType, MessageOptions, Mimetype } =require('@adiwajshing/baileys');
 
@@ -74,6 +75,106 @@ const startSock = async() => {
             let msg_array = m.message.conversation.split(' ');
             let command = m.message.conversation.split(' ')[0].replace("'", '');
             switch (command) {
+                case "!monday":
+                    var lessons = "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n 📗 Monday Lessons 📗\n______________________\n\n"+
+                    "🌤️ Lesson 1\n"+
+                    "  Unit: "+tm.monday[1].unit+"\n"+
+                    "  Lecturer: "+tm.monday[1].lec+"\n"+
+                    "  Room: "+tm.monday[1].room+"\n\n"+
+                    "☀️ Lesson 2\n"+
+                    "  Unit: "+tm.monday[2].unit+"\n"+
+                    "  Lecturer: "+tm.monday[2].lec+"\n"+
+                    "  Room: "+tm.monday[2].room+"\n\n"+
+                    "🌤️ Lesson 3\n"+
+                    "  Unit: "+tm.monday[3].unit+"\n"+
+                    "  Lecturer: "+tm.monday[3].lec+"\n"+
+                    "  Room: "+tm.monday[3].room+"\n"+
+                    
+                    "______________________";
+                    sock.sendMessage(m.key.remoteJid, {text:lessons})
+
+
+                break;
+                case "!tuesday":
+                    var lessons = "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n 📒 Tuesday Lessons 📒\n______________________\n\n"+
+                    "🌤️ Lesson 1\n"+
+                    "  Unit: "+tm.tuesday[1].unit+"\n"+
+                    "  Lecturer: "+tm.tuesday[1].lec+"\n"+
+                    "  Room: "+tm.tuesday[1].room+"\n\n"+
+                    "☀️ Lesson 2\n"+
+                    "  Unit: "+tm.tuesday[2].unit+"\n"+
+                    "  Lecturer: "+tm.tuesday[2].lec+"\n"+
+                    "  Room: "+tm.tuesday[2].room+"\n\n"+
+                    "🌤️ Lesson 3\n"+
+                    "  Unit: "+tm.tuesday[3].unit+"\n"+
+                    "  Lecturer: "+tm.tuesday[3].lec+"\n"+
+                    "  Room: "+tm.tuesday[3].room+"\n"+
+                    
+                    "______________________";
+                    sock.sendMessage(m.key.remoteJid, {text:lessons})
+
+
+                break;
+                case "!wednesday":
+                    var lessons = "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n 📕 Wednesday Lessons 📕\n______________________\n\n"+
+                    "🌤️ Lesson 1\n"+
+                    "  Unit: "+tm.wednesday[1].unit+"\n"+
+                    "  Lecturer: "+tm.wednesday[1].lec+"\n"+
+                    "  Room: "+tm.wednesday[1].room+"\n\n"+
+                    "☀️ Lesson 2\n"+
+                    "  Unit: "+tm.wednesday[2].unit+"\n"+
+                    "  Lecturer: "+tm.wednesday[2].lec+"\n"+
+                    "  Room: "+tm.wednesday[2].room+"\n\n"+
+                    "🌤️ Lesson 3\n"+
+                    "  Unit: "+tm.wednesday[3].unit+"\n"+
+                    "  Lecturer: "+tm.wednesday[3].lec+"\n"+
+                    "  Room: "+tm.wednesday[3].room+"\n"+
+                    
+                    "______________________";
+                    sock.sendMessage(m.key.remoteJid, {text:lessons})
+
+
+                break;
+                case "!thursday":
+                    var lessons = "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n 📗 Thursday Lessons 📗\n______________________\n\n"+
+                    "🌤️ Lesson 1\n"+
+                    "  Unit: "+tm.thurday[1].unit+"\n"+
+                    "  Lecturer: "+tm.thurday[1].lec+"\n"+
+                    "  Room: "+tm.thurday[1].room+"\n\n"+
+                    "☀️ Lesson 2\n"+
+                    "  Unit: "+tm.thurday[2].unit+"\n"+
+                    "  Lecturer: "+tm.thurday[2].lec+"\n"+
+                    "  Room: "+tm.thurday[2].room+"\n\n"+
+                    "🌤️ Lesson 3\n"+
+                    "  Unit: "+tm.thurday[3].unit+"\n"+
+                    "  Lecturer: "+tm.thurday[3].lec+"\n"+
+                    "  Room: "+tm.thurday[3].room+"\n"+
+                    
+                    "______________________";
+                    sock.sendMessage(m.key.remoteJid, {text:lessons})
+
+
+                break;
+                case "!friday":
+                    var lessons = "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n 🎉 Friday Lessons 🎉\n______________________\n\n"+
+                    "🌤️ Lesson 1\n"+
+                    "  Unit: "+tm.friday[1].unit+"\n"+
+                    "  Lecturer: "+tm.friday[1].lec+"\n"+
+                    "  Room: "+tm.friday[1].room+"\n\n"+
+                    "☀️ Lesson 2\n"+
+                    "  Unit: "+tm.friday[2].unit+"\n"+
+                    "  Lecturer: "+tm.friday[2].lec+"\n"+
+                    "  Room: "+tm.friday[2].room+"\n\n"+
+                    "🌤️ Lesson 3\n"+
+                    "  Unit: "+tm.friday[3].unit+"\n"+
+                    "  Lecturer: "+tm.friday[3].lec+"\n"+
+                    "  Room: "+tm.friday[3].room+"\n"+
+                    
+                    "______________________";
+                    sock.sendMessage(m.key.remoteJid, {text:lessons})
+
+
+                break;
                 case "!graffiti":
                     if(msg_array.length <  3)
                     {
