@@ -345,7 +345,7 @@ const startSock = async() => {
                     // send a buttons message with image header!
                     const buttons = [
                         {buttonId: 'alivebtncall', buttonText: {displayText: '📞 Contact'}, type: 1},
-                        {buttonId: 'alivebtntext', buttonText: {displayText: '💬 Text Me'}, type: 1},
+                        {buttonId: 'alivebtnPremier', buttonText: {displayText: '⚽ Premier League'}, type: 1},
                         {buttonId: 'alivebtnhelp', buttonText: {displayText: 'Help'}, type: 1}
                     ]
                     
@@ -378,12 +378,50 @@ const startSock = async() => {
 
             switch (btn_response) {
                 case "btnGraffiti":
-                    sock.sendMessage(m.key.remoteJid, {text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n🍃 Graffiti Options\n1: sand\n2: beach\n3: leaves\n4: blood\n5: graffiti\n6: graffitti_second"})
+                    sock.sendMessage(m.key.remoteJid, {text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n🍃 Graffiti Options\n1: sand\n2: beach\n3: leaves\n4: blood\n5: spark\n6: glitch\n7: neon\n8: graffiti"})
                 break;
                 case "alivebtncall":
-                case "alivebtntext":
                     contact()
                 break;
+                case "alivebtnPremier":
+                    try {
+                        let clubs = []
+                        let pts = []
+                        let club_info = []
+                        let data = "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n ⚽ *Premier League* ⚽\n_______________________\n";
+                        let url = "https://www.sportsmole.co.uk/football/live-scores/";
+                        axios({
+                            method: 'get',
+                            url: url
+                        })
+                        .then((res)=>{
+                            let $ = cheerio.load(res.data);
+                            // Scrappring games
+                            $(".leaguetable .s1").find('a:nth-child(1)').each(function() {
+                                clubs.push($(this).text().trim());
+                            });
+                            //Scapping PTS
+                            $(".leaguetable .positiontd").find('strong').each(function() {
+                                pts.push($(this).text().trim());
+                            });
+                            for(var i = 0; i<clubs.length ; i++)
+                            {
+                                club_info.push({name: clubs[i], pts: pts[i]})
+                            }
+                            for(var i = 0; i<club_info.length ; i++)
+                            {
+                                data = data+"⚽ "+"*"+club_info[i].name+"*"+" PTS :"+"*"+club_info[i].pts+"*"+"\n";
+                            }
+                            sock.sendMessage(m.key.remoteJid, {text: data})
+                        })
+                        .catch(()=>{
+                            sock.sendMessage(m.key.remoteJid, {text: "「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n 😒 Couldn't Fetch Premier League Data. "})
+                        })
+                        
+                    } catch (error) {
+                        sock.sendMessage(m.key.remoteJid, {text: "「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n 😒 Couldn't Fetch Premier League Data. "})
+                    }
+                break
                 case "alivebtnhelp":
                     help();
                 break;
@@ -395,7 +433,7 @@ const startSock = async() => {
                             {buttonId: 'ytcancel', buttonText: {displayText: '🗑️ Cancel'}, type: 1},
                         ]
                         const ytbuttonsDownloadMessage = {
-                            text: `\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n ☘️ Select conversion option: `,
+                            text: `sock.sendMessage(m.key.remoteJid, {text: data}) ☘️ Select conversion option: `,
                             footer: btnFooter,
                             buttons: ytbuttonsDownload,
                             headerType: 1
