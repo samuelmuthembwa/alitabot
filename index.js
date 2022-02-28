@@ -528,18 +528,7 @@ const startSock = async() => {
                 break;
                 case "ytaudio":
                      try {
-                        async function getFirstLine(pathToFile) {
-                            const readable = fs.createReadStream(pathToFile);
-                            const reader = readline.createInterface({ input: readable });
-                            const line = await new Promise((resolve) => {
-                                reader.on('line', (line) => {
-                                reader.close();
-                                resolve(line);
-                                });
-                            });
-                            readable.close();
-                            return line;
-                        }
+                        
                         let ytlink = await getFirstLine('./database/ytlinks.txt');
                         let audio_path = (Math.random() + 1).toString(36).substring(7)+".mp3";
                         let stream = fs.createWriteStream(audio_path);
@@ -582,7 +571,36 @@ const startSock = async() => {
                      }
                 break;
                 case"ytvideo":
-                    sock.sendMessage(m.key.remoteJid, {text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  🤹🏾‍♂️ This feature is comin soon."})
+                    try {
+                        let yt_url = await getFirstLine('./database/ytlinks.txt');
+                        let video_path = (Math.random() + 1).toString(36).substring(7)+".mp4";
+                        let vid_stream = fs.createWriteStream(video_path);
+                        sock.sendMessage(m.key.remoteJid, {text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n ⬇️ Downloading ..."})
+                        ytdl(yt_url, { filter: format => format.container === 'mp4' })
+                        .pipe(vid_stream);
+                        vid_stream.on('finish', ()=>{
+                            sock.sendMessage(m.key.remoteJid, {text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n ⬆️ Uploading ..."})
+                            try {
+                                sock.sendMessage(
+                                    m.key.remoteJid, 
+                                    { 
+                                        video: fs.readFileSync(video_path), 
+                                        caption: "「「  👸🏾 *Alita Bot* 💚❤️ 」\n\nYoutube Video Downloader.",
+            
+                                    }
+                                )
+                                .then(()=>{
+                                    fs.unlinkSync(video_path)
+                                })
+                            } catch (error) {
+                                sock.sendMessage(m.key.remoteJid, {text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n ‼️  Upload error. "})
+                            }
+                        })
+                        
+                    } catch (error) {
+                        console.log(error)
+                        sock.sendMessage(m.key.remoteJid, {text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n ‼️  Download failed."})
+                    }
                 break;
                 default:
                 break;
@@ -650,6 +668,20 @@ const startSock = async() => {
             } catch (error) {
                 sock.sendMessage(m.key.remoteJid, {text: "「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n 😒 Couldn't Fetch Premier League Data. "})
             }
+        }
+
+
+        async function getFirstLine(pathToFile) {
+            const readable = fs.createReadStream(pathToFile);
+            const reader = readline.createInterface({ input: readable });
+            const line = await new Promise((resolve) => {
+                reader.on('line', (line) => {
+                reader.close();
+                resolve(line);
+                });
+            });
+            readable.close();
+            return line;
         }
 
 
@@ -740,7 +772,7 @@ const startSock = async() => {
             const templateButtons = [
                 {index: 1, urlButton: {displayText: '💬 DM Now', url: 'https://wa.me/254759439032'}},
                 {index: 2, callButton: {displayText: 'Call me', phoneNumber: '+254 7594 39032'}},
-                {index: 2, callButton: {displayText: 'Save My Number 😍', phoneNumber: '+254 7594 39032'}},
+                {index: 3, callButton: {displayText: 'Save My Number 😍', phoneNumber: '+254 7594 39032'}},
             ]
             
             const templateMessage = {
@@ -750,6 +782,7 @@ const startSock = async() => {
             }
             
             sock.sendMessage(m.key.remoteJid, templateMessage)
+        
             console.log(commandlist)
         }
     })
