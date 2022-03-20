@@ -23,6 +23,7 @@ const commandlist = require('./AlitaBot/commands.json')
 const tm = require('./database/timetable.json')
 const makeWASocket = require('@adiwajshing/baileys').default;
 const  { AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, useSingleFileAuthState, MessageType, MessageOptions, Mimetype } =require('@adiwajshing/baileys');
+const { stream } = require('file-type')
 
 // the store maintains the data of the WA connection in memory
 // can be written out to a file & read from it
@@ -361,31 +362,34 @@ const startSock = async() => {
 
                                     }
                                     
-                                    let image_names = [];
+                                    
                                     sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  Fetching your images ..." })
                                     for(var i = 1; i <=iteration ; i++)
                                     {
                                         let name = (Math.random() + 1).toString(36).substring(7)+".jpg";
-                                        image_names.push(name);
+                                        
                                         try {
                                             let stream = fs.createWriteStream(name);
-                                            request(results[i].url).pipe(stream);    
+                                            request(results[i].url).pipe(stream);   
+                                            stream.on('finish', ()=>{
+                                                try {
+                                                    const buttonMessage = {
+                                                        image: {url: name},
+                                                        headerType: 4
+                                                    }
+                                                    sock.sendMessage(m.key.remoteJid, buttonMessage).then(()=>{
+                                                        fs.unlinkSync(name)
+                                                    })
+                                                } catch (error) {
+                                                    sock.sendMessage(m.key.remoteJid,{text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  Couldn't send the image" } )
+                                                }
+                                        
+                                            }) 
                                         } catch (error) {
                                             console.log("Err Image"+ error)
                                         }
                                     }
-                                    for(var i = 0; i <= iteration-1 ; i++)
-                                    {
-                                        try {
-                                            sock.sendMessage(m.key.remoteJid, {image: image_names[i]})
-                                        } catch (error) {
-                                            sock.sendMessage(m.key.remoteJid,{text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  Couldn't send the image" } )
-                                        }
-                                        fs.unlinkSync(image_names[i])
-                                    }
-                                        
-                                    
-                                    
+                                  
                                 }
                             }
 
