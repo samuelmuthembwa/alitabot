@@ -7,6 +7,8 @@ const ytdl = require('ytdl-core')
 const yts = require('yt-search')
 const cheerio = require('cheerio')
 const request = require('request')
+const gis  = require("g-i-s")
+
 //Functions
 const {yta, ytv} =require('./lib/ytdl')
 const {graffiti} = require('./lib/textmaker')
@@ -14,6 +16,7 @@ const {graffiti} = require('./lib/textmaker')
 
 //Constants
 const ai_setting_path = "AlitaBot/alitabot_ai.txt"
+const responses = require("./database/responses.json")
 const {btnFooter} = require('./lib/constants')
 const {name} = require('./AlitaBot/Bot')
 const commandlist = require('./AlitaBot/commands.json')
@@ -293,7 +296,7 @@ const startSock = async() => {
                                 axios({
                                     
                                     method: 'get',
-                                    url: link
+                                    url: encodeURI(link)
                                 }).then((res)=>{
                                     
                                     let $ = cheerio.load(res.data)
@@ -303,7 +306,7 @@ const startSock = async() => {
                                 }).then((res)=>{
                                     axios({
                                         method: 'get',
-                                        url: link
+                                        url: encodeURI(link)
                                     }).then((res)=>{
                                         let $ = cheerio.load(res.data)
                                         let lyrics_data = $('#site').find('.mxm-lyrics__content > .lyrics__content__ok').text()
@@ -327,6 +330,70 @@ const startSock = async() => {
                         
                     }
 
+                break;
+                case "!image":
+                    try {
+                    if(msg_array.length === 1)
+                        {
+                            sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  😃 This command should be followed by a name." })
+                        }
+                        else
+                        {
+                            let title_array = [];
+                            for(var i = 1; i<msg_array.length; i++)
+                            {
+                                title_array.push(msg_array[i]);
+                            }
+                            let search_term = title_array.join(" ");
+                            gis(search_term, fetcher);
+                            async function fetcher(error, results){
+                                if(error){
+                                    sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 🧡❤ 」」\n\n" + error})
+                                }
+                                else{
+                                    let iteration = 0;
+                                    let count  = results.length;
+                                    if(count <=5 ){
+                                        iteration = count;
+                                    }
+                                    else{
+                                        iteration = 5;
+
+                                    }
+                                    
+                                    let image_names = [];
+                                    sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  Fetching your images ..." })
+                                    for(var i = 1; i <=iteration ; i++)
+                                    {
+                                        let name = (Math.random() + 1).toString(36).substring(7)+".jpg";
+                                        image_names.push(name);
+                                        try {
+                                            let stream = fs.createWriteStream(name);
+                                            request(results[i].url).pipe(stream);    
+                                        } catch (error) {
+                                            console.log("Err Image"+ error)
+                                        }
+                                    }
+                                    for(var i = 0; i <= iteration-1 ; i++)
+                                    {
+                                        try {
+                                            sock.sendMessage(m.key.remoteJid, {image: image_names[i]})
+                                        } catch (error) {
+                                            sock.sendMessage(m.key.remoteJid,{text:"「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n  Couldn't send the image" } )
+                                        }
+                                        fs.unlinkSync(image_names[i])
+                                    }
+                                        
+                                    
+                                    
+                                }
+                            }
+
+                        }
+                        
+                    } catch (error) {
+                        
+                    }
                 break;
                 case "!dict":
                     if(msg_array.length === 1)
@@ -811,36 +878,12 @@ const startSock = async() => {
         async function help()
         {
             try {
-                // send a list message!
-                const sections = [
-                    {
-                    title: "😍 *General*",
-                    rows: [
-                        {title: "📞 Contact", rowId: "optioncontact", description: "\nGet Alita Bot's Contact."},
-                        {title: "🎧 Youtube Audio", rowId: "optionytaudio", description: "\nDownload youtube Music."},
-                        {title: "🎬 Youtube Video", rowId: "optionytvideo", description: "\nComing soon."},
-                        {title: "📗 Online Dictionary", rowId: "optiondict", description: "\nGet word meanings."}
-                    ]
-                    },
-                   {
-                    title: "🔍 *Search Engine*",
-                    rows: [
-                        {title: "Wikipedia", rowId: "optionwiki", description: "Search to get Official wikipedia link."},
-                        {title: "Youtube search", rowId: "optionspeed", description: "Search for latest videos."}
-                    ]
-                    },
-                ]
-                
-                const listMessage = {
-                    title: name,
-                    text:"📚 Hey check out my command list.",
+                let help = "「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n┌ HELP LIST ┐ \n\n";
+                responses.forEach(item => {
+                    help = help + "👻 "+item.command+"\n 🍀 "+item.description+"\n ✨ Example: "+item.example+"\n\n"
                     
-                    buttonText: "💬 Help list",
-                    footer: btnFooter,
-                    sections
-                }
-                sock.sendMessage(m.key.remoteJid, listMessage);
-
+                });
+                sock.sendMessage(m.key.remoteJid, {text: help, footer: btnFooter});
             }
                 
             catch (error) {
@@ -855,7 +898,6 @@ const startSock = async() => {
             const templateButtons = [
                 {index: 1, urlButton: {displayText: '💬 DM Now', url: 'https://wa.me/254759439032'}},
                 {index: 2, callButton: {displayText: 'Call me', phoneNumber: '+254 7594 39032'}},
-                {index: 3, callButton: {displayText: 'Save My Number 😍', phoneNumber: '+254 7594 39032'}},
             ]
             
             const templateMessage = {

@@ -1,0 +1,56 @@
+[
+    
+        {
+            "description": "This command is used to turn on the the Airtificial intelligence.",
+            "command": "!aion",
+            "example": "!aion"
+        },
+    
+        {
+            "description": "This command is used to turn off the the Airtificial intelligence.",
+            "command": "!aioff",
+            "example": "!aioff"
+        }
+    ,
+    
+        {
+            "description": "This command is used to search the Youtube for links.",
+            "command": "!ytsearch",
+            "example": "!ytsearch Sorry"
+        }
+
+    ,
+    
+        {
+            "description": "This command should be followed by the Youtube link inorder to download it.",
+            "command": "!play",
+            "example": "!play youtube_Link_Here"
+        }
+
+    ,
+    
+        {
+            "description": "Follow this command with an English word in order to get its word.",
+            "command": "!dict",
+            "example": "!dict robot"
+        }
+
+    ,
+   
+        {
+            "description": "Follow this commmand by the Song name and an artist name. ",
+            "command": "!lyrics",
+            "example": "!lyrics Sorry by Justin Beiber"
+
+        }
+        ,
+        {
+            "description": "Follow this commmand by the Song name and an artist name. ",
+            "command": "!graffiti",
+            "example": "!graffiti sand Alita"
+
+        }
+
+    
+    
+]
