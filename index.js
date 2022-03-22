@@ -71,7 +71,7 @@ const startSock = async() => {
     sock.ev.on('messages.upsert', async ({ messages }) => {
         const m = messages[0];
         console.log(JSON.stringify(m))
-        let ai_setting = "";
+        let ai_setting = "on";
         if (!m.message) return // if there is no text or media message
         const messageType = Object.keys (m.message)[0]// get what type of message it is -- text, image, video
         //Normal commands
@@ -598,34 +598,7 @@ const startSock = async() => {
             }
                      
             
-            if(ai_setting === "on")
-            {
-                let search_array = [];
-                for(var i = 0; i< msg_array.length; i++)
-                {
-                    search_array.push(msg_array[i]);
-                }
-                var query = search_array.join(" ");
-                console.log("\n\n"+query+"\n\n")
-                try {
-                    var alita_ai = "http://api.brainshop.ai/get?bid=164282&key=Kmjncuh3Oc2pV8OI&uid=[uid]&msg="+query;
-                    axios({
-                        method: 'GET',
-                        url: encodeURI(alita_ai)
-                    })
-                    .then((res)=>{
-                        sock.sendMessage(m.key.remoteJid,{text: res.data.cnt})
-                        console.log("\n\n"+res.data.cnt+"\n\n")
-                       
-                    })
-                    .catch((err)=>{
-                        console.log("\n\n"+err+"\n\n")
-                        // sock.sendMessage(m.key.remoteJid,{text: "😃 I don't recognise emojis or special characters yet."})
-                    })
-                } catch (error) {
-                    sock.sendMessage(m.key.remoteJid,{text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n Airtificial inteligence is Offline"})
-                }
-            }
+ 
             
         }
 
@@ -768,7 +741,8 @@ const startSock = async() => {
         if (messageType === 'extendedTextMessage') {
             //Checking if the link is a Youtube link
             let ytlink = JSON.stringify(m.message.extendedTextMessage.canonicalUrl).replace('"','');
-            console.log(ytlink)
+            
+         
             //If youtube link is detected
             try {
                 if(ytdl.validateURL(ytlink))
@@ -778,6 +752,50 @@ const startSock = async() => {
                 // youtube(ytlink);
             } catch (error) {
                 console.log("Ytdl Validate error.")
+            }
+            if(m.key.fromMe == false)
+            {
+                if("contextInfo" in m.message.extendedTextMessage)
+                {
+                    
+                    if(m.message.extendedTextMessage.contextInfo.participant == "254785613597@s.whatsapp.net")
+                    {
+                        if(ai_setting === "on")
+                        {
+                            let msg_array = m.message.conversation.split(' ');
+                            // let search_array = [];
+                            // for(var i = 0; i< msg_array.length; i++)
+                            // {
+                            //     search_array.push(msg_array[i]);
+                            // }
+                            var query = m.message.extendedTextMessage.text;
+                            console.log("\n\n"+query+"\n\n")
+                            try {
+                                var alita_ai = "http://api.brainshop.ai/get?bid=164282&key=Kmjncuh3Oc2pV8OI&uid=[uid]&msg="+query;
+                                axios({
+                                    method: 'GET',
+                                    url: encodeURI(alita_ai)
+                                })
+                                .then((res)=>{
+                                    sock.sendMessage(m.key.remoteJid, {text: res.data.cnt}, {quoted: m});
+                                    
+                                    // sock.sendMessage(m.key.remoteJid,{text: res.data.cnt})
+                                    console.log("\n\n"+JSON.stringify(m)+"\n\n")
+                                    
+                                })
+                                .catch((err)=>{
+                                    console.log("\n\n"+err+"\n\n")
+                                    // sock.sendMessage(m.key.remoteJid,{text: "😃 I don't recognise emojis or special characters yet."})
+                                })
+                            } catch (error) {
+                                sock.sendMessage(m.key.remoteJid,{text: "\n「「  👸🏾 *Alita Bot* 💚❤️ 」」\n\n Airtificial inteligence is Offline"})
+                            }
+                        }
+
+                    }
+
+    
+                }
             }
 
 
