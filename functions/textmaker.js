@@ -37,16 +37,16 @@ const graffiti = (style, name)=>{
         name
         ).then(async (data) => { 
             
-                try {
-                    console.log(data) 
-                    resolve({
-                        data
-                    })
-                    
-                } catch(err) { 
-                    console.log(err)
-                    reject('Err Downloading Graffiti')
-                } 
+            try {
+                console.log(data) 
+                resolve({
+                    data
+                })
+                
+            } catch(err) { 
+                console.log(err)
+                reject('Err Downloading Graffiti')
+            } 
             
         
         }); 
