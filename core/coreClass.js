@@ -16,6 +16,7 @@ exports.AlitaBotObject  =  {
     "groupName" : "",
     "groupMembers" : "",
     "groupAdmins" : "",
-    "groupId" : ""
+    "groupId" : "",
+    "groupMetadata": ""
     
 }

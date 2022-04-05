@@ -1,2 +1,2 @@
-const prefixes = ["!", ".", "@", "&",":","#"]
+const prefixes = ["!", ".", "&",":","#"]
 module.exports = prefixes;

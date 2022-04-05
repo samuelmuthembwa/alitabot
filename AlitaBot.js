@@ -23,31 +23,15 @@ const startSock = async() => {
 	})
     sock.ev.on('messages.upsert', async ({ messages }) => {
         const m = messages[0];
-		// console.log(m)
+		console.log(m)
         if(m.message != undefined && m.message != null)
         {
             if(m.key.fromMe == false)
             {
-				var sender = m.key.remoteJid;
-				const groupMetadata = m.key.remoteJid.split("@")[1] == "g.us" ? await sock.groupMetadata(sender) : '';
-				var resolve = await resolver.cleaner(m, groupMetadata)
-				if(resolve.isCmd && commands.includes(resolve.command) && resolve.command != "tagall")
+				var resolve = await resolver.cleaner(m, sock)
+				if(resolve.isCmd && commands.includes(resolve.command))
 				{
 					commandHandler.commandHandler(resolve, m, sock)
-					// 	sock.sendMessage(resolve.sender, {text: res}, {quoted: m})
-					// })
-				}
-				if(resolve.isCmd && resolve.command == "tagall" && commands.includes(resolve.command) )
-				{
-					try {
-						const metadata = await sock.groupMetadata(m.key.remoteJid, false);
-						const array = metadata.participants.map(all => all.id)
-						let allMembers = ''
-						array.forEach((participant, i) => allMembers += `@${array[i].replace('@s.whatsapp.net', '')}\n`)
-						await sock.sendMessage(m.key.remoteJid, { text: `✨ *Reason for tag:* ${resolve.args}\n${allMembers}`, mentions: array }, {quoted: m})
-					} catch (error) {
-						sock.sendMessage(resolve.sender, {text: "👸🏾 Couldn't tag all memmbers"}, {quoted: m})
-					}
 				}
             }
         }
