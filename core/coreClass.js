@@ -6,7 +6,7 @@ exports.AlitaBotObject  =  {
     "body" : "",
     "owner" : "",
     "botId": "",
-    "sender" : "", // The person who sent the message in the group.,
+    "sender" : "", 
     "isGroup" : "",
     "isBotGroupAdmin" : "",
     "imgCaption" : "",

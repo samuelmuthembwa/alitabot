@@ -6,10 +6,16 @@ const {handleRemove}= require("../functions/remove")
 const {handleWeather} =require("../functions/weather")
 const {handleTagall} =  require("../functions/tagall")
 const {handleBan, handleUnBan} = require("../functions/ban")
+const { handleSticker } = require("../functions/stickerMaker")
 const {tagAll, bannedUsers} = require("../database/store")
+const { handleGif } = require("../functions/videoGif")
+const { handleVideo } = require("../functions/ytVideo")
+const { handleAudio } = require("../functions/ytAudio")
+const { handleUploader } = require("../functions/uploader")
 exports.commandHandler = async(resolve, m, sock)=>{
     if(resolve.isGroup)
     {
+        
         let userId = m.key.participant;
         if(bannedUsers.includes(userId))
         {
@@ -17,6 +23,21 @@ exports.commandHandler = async(resolve, m, sock)=>{
         }
         else{
             switch (resolve.command) {
+                case "sticker":
+                    await handleSticker(sock, resolve, m)
+                    break;
+                case "video":
+                    await handleVideo(sock, resolve, m)
+                    break;
+                case "audio":
+                    await handleAudio(sock, resolve, m)
+                    break;
+                case "upload":
+                    await handleUploader(sock, resolve, m)
+                    break;
+                case "gif":
+                    await handleGif(sock, resolve, m)
+                    break;
                 case "ban":
                     let userId = m.key.participant;
                     if(userId != resolve.owner)
@@ -34,7 +55,7 @@ exports.commandHandler = async(resolve, m, sock)=>{
                         sock.sendMessage(m.key.remoteJid, {text: "⛔ Bot owner command."},{quoted: m})
                     }
                     else{
-                        let resunBan= await handleUnBan(sock, resolve, m)
+                        await handleUnBan(sock, resolve, m)
                     }
                     break;
 
@@ -45,31 +66,30 @@ exports.commandHandler = async(resolve, m, sock)=>{
                         sock.sendMessage( resolve.sender, {text: msg}, {quoted: m})
                     }
                     else{
-                        let resTagall= await handleTagall(sock, resolve, m)
+                        await handleTagall(sock, resolve, m)
                     }
                     break;
                 case "bet" :
                 case "bets":
-                    let resBets= await handle(resolve, m, sock)
+                    await handle(resolve, m, sock)
                     
                     break;
                 case "live":
-                    let resLive= await handleLive(resolve, m, sock)
-                    
+                    await handleLive(resolve, m, sock)
                     break;
                 case "typos":
                 case "typo":
-                    let resTypos= await handleTyops(resolve, m, sock)
+                    await handleTyops(resolve, m, sock)
                     break;
                 case "remove":
-                    let resRemove= await handleRemove(resolve, m, sock)
+                   await handleRemove(resolve, m, sock)
         
                     break;
                 case "alive":
-                    let resAlive= await handleAlive(resolve, m, sock)
+                    await handleAlive(resolve, m, sock)
                     break;
                 case "weather":
-                    let resWeather= await handleWeather(resolve, m, sock)
+                    await handleWeather(resolve, m, sock)
                     break;
                 default:
                     break;

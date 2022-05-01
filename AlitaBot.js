@@ -10,7 +10,8 @@ const  { AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, 
 const banner = require("./core/banner")
 const { state, saveState } = useSingleFileAuthState('./auth_info_multi.json')
 //Functions Import
-const {live} = require("./functions/liveGames")
+const {live} = require("./functions/liveGames");
+const { handleAi } = require('./functions/Ai');
 // start a connection
 const startSock = async() => {
 	const { version, isLatest } = await fetchLatestBaileysVersion()
@@ -23,7 +24,6 @@ const startSock = async() => {
 	})
     sock.ev.on('messages.upsert', async ({ messages }) => {
         const m = messages[0];
-		console.log(m)
         if(m.message != undefined && m.message != null)
         {
             if(m.key.fromMe == false)
@@ -32,6 +32,10 @@ const startSock = async() => {
 				if(resolve.isCmd && commands.includes(resolve.command))
 				{
 					commandHandler.commandHandler(resolve, m, sock)
+				}
+				if(resolve.mimetype == 'ex-text' &&resolve.quotedsender == '254734962640@s.whatsapp.net' )
+				{
+					await handleAi(m, sock, resolve)
 				}
             }
         }
