@@ -1,9 +1,9 @@
 const axios =require("axios")
 const cheerio = require('cheerio')
 module.exports = {
-    async handleLyrics(sock, resolve, m){
+    async handleLyrics(resolve, m, sock){
         if(resolve.args == ""){
-            sock.sendMessage(info.sender, {text:"「「  👸🏾 *Alita Bot* 」」\n\n  😃 Give me a song title." }, {quoted: m})
+            sock.sendMessage(resolve.sender, {text:"「「  👸🏾 *Alita Bot* 」」\n\n  😃 Give me a song title." }, {quoted: m})
         }
         else{
             try {

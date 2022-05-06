@@ -1,9 +1,9 @@
 const axios = require("axios")
 const request = require("request")
 module.exports = {
-    async handleDictionary(sock, resolve, m){
+    async handleDictionary(resolve, m, sock){
         if(resolve.args == ""){
-            sock.sendMessage(info.sender, {text:"「「  👸🏾 *Alita Bot* 」」\n\n  😃 Give me a world." }, {quoted: m})
+            sock.sendMessage(resolve.sender, {text:"「「  👸🏾 *Alita Bot* 」」\n\n  😃 Give me a world." }, {quoted: m})
         }
         else{ 
             var dictionary_api_url = `https://api.dictionaryapi.dev/api/v2/entries/en/${resolve.args}`;
@@ -11,7 +11,7 @@ module.exports = {
                 request(dictionary_api_url, function(err,response,  body){
                     if(err)
                     {
-                        sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 」」\n\n  🆘 Internal Server Error!" }, {quoted: m})
+                        sock.sendMessage(resolve.sender, {text:"「「  👸🏾 *Alita Bot* 」」\n\n  🆘 Internal Server Error!" }, {quoted: m})
                     }else
                     {
                         let parsed = JSON.parse(body);
@@ -51,7 +51,7 @@ module.exports = {
                             {
                                 sentence +=array_res[i]+"\n";
                             }
-                            sock.sendMessage(m.key.remoteJid, {text:"\n「「   👸🏾 *Alita Bot* 🧡❤   」」\n\n"+"🔍 Search term: "+query_word.toUpperCase()+"\n\n🔊 *PHONETIC:* "+phonetic+"\n"+sentence}, {quoted: m})
+                            sock.sendMessage(m.key.remoteJid, {text:"\n「「   👸🏾 *Alita Bot* 🧡❤   」」\n\n🔊 *PHONETIC:* "+phonetic+"\n"+sentence}, {quoted: m})
                             
                             
                         }else{
@@ -77,7 +77,7 @@ module.exports = {
                                             sendAudio(path, jid)
                                             async function sendAudio(path, jid)
                                             {
-                                                await sock.sendMessage(
+                                                sock.sendMessage(
                                                     jid, 
                                                     { audio: { url: path }, mimetype: 'audio/mp4' },
                                                     {quoted: m}

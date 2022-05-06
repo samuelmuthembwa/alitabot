@@ -2,13 +2,13 @@ const tts = require("google-translate-tts")
 const fs = require("fs")
 module.exports = {
     
-    async handleTTs(sock, resolve, m){
+    async handleTTs(sock, resolve, m ){
         try {
             if(resolve.args == ""){
                 sock.sendMessage(info.sender, {text: "🌟 You didn't provide a celebrity name."}, {quoted: m})
             }
             else{
-                let buffer = await tts.synthesize({
+                let buffer = tts.synthesize({
                     text: resolve.args,
                     voice: 'en-US',
                 });
@@ -18,7 +18,7 @@ module.exports = {
                     if(err) {
                         return console.log(err);
                     }
-                    await sock.sendMessage(
+                    sock.sendMessage(
                         m.key.remoteJid, 
                         { audio: { url: audioMP3}, mimetype: 'audio/mp3' },
                         {quoted: m}

@@ -1,17 +1,17 @@
 const { yta } = require("./downloaders")
-const ytsearch = require('ytsearch-node');
+const ytsearch = require('ytsearch');
 module.exports = {
 
     async handleAudio(sock, resolve, m){
         try {
             ytsearch(resolve.args).then((results)=>{
-                let info = results[1]
+                let info = results.videos[0]
                 if (!info.liveStream) {
                     let data = {
                         image: {url: info.thumbnail.url},
-                        caption: `💿 *Title*: ${info.title}\n🤹🏾‍♀️ *Author*: ${info.author.name}\n⏲️ *Duration*: ${info.duration}\n😀 *Views*: ${info.shortViewCount}\n⬆️ *Released*: ${info.publishedAt}\n📕 *Description*: ${info.description}\n`,
+                        caption: `💿 *Title*: ${info.title}\n🤹🏾‍♀️ *Author*: ${info.author.name}\n⏲️ *Duration*: ${info.duration.timestamp}\n😀 *Views*: ${info.views}\n⬆️ *Released*: ${info.ago}\n📕 *Description*: ${info.description}\n`,
                     }
-                    let url = info.watchUrl;
+                    let url = info.url;
                     sock.sendMessage(m.key.remoteJid, data, {quoted: m}).then(()=>{
                         sock.sendMessage(m.key.remoteJid, {text: "🎧 Downloading ... "}, {quoted: m})
                         .then(()=>{
