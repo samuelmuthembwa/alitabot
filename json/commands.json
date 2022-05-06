@@ -28,5 +28,10 @@
         "name": "!alive\n",
         "desc": "*Description* :This command checks if Alita is awake",
         "Usage": "*Usage*: !alive"
+    },
+    "bets":{
+        "name": "!bets or !bet\n",
+        "desc": "*Description* :Show football match predictions",
+        "Usage": "*Usage*: !bet"
     }
 }

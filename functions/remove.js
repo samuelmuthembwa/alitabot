@@ -7,7 +7,6 @@ module.exports = {
                 sock.sendMessage(m.key.remoteJid, { text: "👸🏾 I am not an admin yet."}, {quoted: m})
             }
             let sender = m.key.participant;
-            console.log("Sender: "+sender)
             if(info.groupAdmins.includes(sender)==false)
             {
                 sock.sendMessage(m.key.remoteJid, { text: "🤹🏾 You are not an admin professor."}, {quoted: m})
@@ -19,12 +18,9 @@ module.exports = {
             }
             else
             {
-                console.log("Remove fun")
                 if(info.groupAdmins.includes(info.botId)==true && info.groupAdmins.includes(sender)== true)
                 {
-                    console.log("Remove fun2")
                     try {
-                        console.log("Remove fun3")
                         sock.sendMessage(m.key.remoteJid, { text: "👸🏾Kicking user(s)."}, {quoted: m})
                         for(var i =0; i< info.args.split(" ").length ;i++)
                         {
@@ -36,20 +32,12 @@ module.exports = {
                                 "remove" 
                             )
 
-                        }
-                        
-                        
-                        
+                        }  
                     } catch (error) {
-                        console.log("Count not remove user: "+error)
+                        sock.sendMessage(m.key.remoteJid, { text: "👸🏾 Could not remove user."}, {quoted: m})
                     }
-                    
                 }
-
             }
-            
-            
-
         }
     }
 }

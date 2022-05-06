@@ -4,7 +4,7 @@ module.exports = {
 
     async handleVideo(sock, resolve, m){
         try {
-            ytsearch(resolve.body).then((results)=>{
+            ytsearch(resolve.args).then((results)=>{
                 let info = results[1]
                 if (!info.liveStream) {
                     const data = {

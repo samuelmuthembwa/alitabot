@@ -3,14 +3,12 @@ const pref = require("../config/prefix")
 exports.cleaner = async(m, sock )=>{
     return new Promise(async (resolve, reject)=>{
         try {
-            var jsonMessage = JSON.stringify(m)
             AlitaBotObject.isGroup = m.key.remoteJid.split("@")[1] == "g.us" ? true : false;
             AlitaBotObject.mimetype = Object.keys(m.message) == "imageMessage" ? 'image' : Object.keys(m.message) == "videoMessage" ? "video" : Object.keys(m.message) == "conversation" ? "convo" :  Object.keys(m.message) == "extendedTextMessage" ? "ex-text" : "other";
             AlitaBotObject.body = AlitaBotObject.mimetype == "ex-text" ?  m.message.extendedTextMessage.text: AlitaBotObject.mimetype == "convo" ? m.message.conversation : "" ;
             AlitaBotObject.sender =  m.key.remoteJid;
             AlitaBotObject.owner = "254759439032@s.whatsapp.net";
-            AlitaBotObject.botId = "254732730009@s.whatsapp.net";
-            var mmime = Object.keys(m.message);
+            AlitaBotObject.botId = "254734962640@s.whatsapp.net";
             AlitaBotObject.imgCaption = AlitaBotObject.mimetype == "image" ? AlitaBotObject.body = m.message.imageMessage.caption  : "";
             AlitaBotObject.videoCaption = AlitaBotObject.mimetype == "video" ? AlitaBotObject.body = m.message.videoMessage.caption  : "";
             AlitaBotObject.isCmd = pref.includes(AlitaBotObject.body.charAt(0), 0)? true: false;

@@ -12,6 +12,15 @@ const { handleGif } = require("../functions/videoGif")
 const { handleVideo } = require("../functions/ytVideo")
 const { handleAudio } = require("../functions/ytAudio")
 const { handleUploader } = require("../functions/uploader")
+const { handleCelebrity } = require("../functions/celebrity")
+const { handleDnsLookup } = require("../functions/dnsLookup")
+const { handleOcr } = require("../functions/ocr")
+const { handleRemoveBg } = require("../functions/removebg")
+const { handleTTs } = require("../functions/textToSpeech")
+const { handleLyrics } = require("../functions/lyrics")
+const { handleDictionary } = require("../functions/dictionary")
+const { handlePremierleague } = require("../functions/premierLeague")
+const { handleContact } = require("../functions/contact")
 exports.commandHandler = async(resolve, m, sock)=>{
     if(resolve.isGroup)
     {
@@ -23,8 +32,33 @@ exports.commandHandler = async(resolve, m, sock)=>{
         }
         else{
             switch (resolve.command) {
+                case "dns":
+                case "dnslookup":
+                case "ip":
+                    await handleDnsLookup(sock, resolve, m)
+                    break;
+                case "removebg":
+                case "rmbg":
+                case "removebackground":
+                    await handleRemoveBg(sock, resolve, m)
+                    break;
+                case "owner":
+                case "conctact":
+                    await handleContact(sock, resolve, m)
+                    break;
+                case "tts":
+                case "texttospeech":
+                    await handleTTs(sock, resolve, m)
+                    break
+                case "celeb":
+                case "celebrity":
+                    await handleCelebrity(sock, resolve, m)
+                    break;
                 case "sticker":
                     await handleSticker(sock, resolve, m)
+                    break;
+                case "ocr":
+                    await handleOcr(sock, resolve, m)
                     break;
                 case "video":
                     await handleVideo(sock, resolve, m)
@@ -90,6 +124,20 @@ exports.commandHandler = async(resolve, m, sock)=>{
                     break;
                 case "weather":
                     await handleWeather(resolve, m, sock)
+                    break;
+                case "lyrics":
+                case "lyric":
+                    await handleLyrics(resolve, m, sock)
+                    break;
+                case "meaning":
+                case "dict":
+                case "dictionary":
+                    await handleDictionary(resolve, m, sock)
+                    break;
+                case "pl":
+                case "premierleague":
+                case "league":
+                    await handlePremierleague(resolve, m, sock)
                     break;
                 default:
                     break;

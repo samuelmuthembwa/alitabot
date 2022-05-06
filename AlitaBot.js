@@ -24,6 +24,7 @@ const startSock = async() => {
 	})
     sock.ev.on('messages.upsert', async ({ messages }) => {
         const m = messages[0];
+		console.log(JSON.stringify(m))
         if(m.message != undefined && m.message != null)
         {
             if(m.key.fromMe == false)

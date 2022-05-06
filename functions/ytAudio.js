@@ -4,10 +4,10 @@ module.exports = {
 
     async handleAudio(sock, resolve, m){
         try {
-            ytsearch(resolve.body).then((results)=>{
+            ytsearch(resolve.args).then((results)=>{
                 let info = results[1]
                 if (!info.liveStream) {
-                    const data = {
+                    let data = {
                         image: {url: info.thumbnail.url},
                         caption: `💿 *Title*: ${info.title}\n🤹🏾‍♀️ *Author*: ${info.author.name}\n⏲️ *Duration*: ${info.duration}\n😀 *Views*: ${info.shortViewCount}\n⬆️ *Released*: ${info.publishedAt}\n📕 *Description*: ${info.description}\n`,
                     }
