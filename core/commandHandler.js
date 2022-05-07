@@ -1,4 +1,4 @@
-const {handle} = require("../functions/bestBets")
+const {handle, handleBets} = require("../functions/bestBets")
 const {handleLive} = require('../functions/liveGames')
 const {handleAlive} = require('../functions/alive')
 const {handleTyops} = require("../functions/typos")
@@ -105,7 +105,7 @@ exports.commandHandler = async(resolve, m, sock)=>{
                     break;
                 case "bet" :
                 case "bets":
-                    await handle(resolve, m, sock)
+                    await handleBets(resolve, m, sock)
                     
                     break;
                 case "live":

@@ -55,7 +55,15 @@ const startSock = async() => {
 		const { connection, lastDisconnect } = update
 		if(connection === 'close') {
 			// reconnect if not logged out
-			startSock()
+			fs.unlink("auth_info_multi.json",(err)=>{
+				if(err)
+				{
+					console.log("Auth info not deleted")
+				}
+				console.log("\n\nBOT RESTARTED...\n\n")
+				startSock()
+			})
+			
 		}
         
 		console.log('connection update', update)

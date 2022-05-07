@@ -1,7 +1,7 @@
 const fs = require("fs")
 const axios = require("axios")
 module.exports = {
-    async handlePremierleague(sock, resolve, m){
+    async handlePremierleague(resolve, m, sock){
         try {
             let clubs = []
             let pts = []
@@ -30,13 +30,13 @@ module.exports = {
                 {
                     data = data+"⚽ "+"*"+club_info[i].name+"*"+" PTS :"+"*"+club_info[i].pts+"*"+"\n";
                 }
-                sock.sendMessage(m.key.remoteJid, {text: data}, {quoted: m})
+                sock.sendMessage(resolve.sender, {text: data}, {quoted: m})
             })
             .catch(()=>{
-                sock.sendMessage(m.key.remoteJid, {text: "「「  👸🏾 *Alita Bot* 」」\n\n 😒 Couldn't Fetch Premier League Data. "}, {quoted: m})
+                sock.sendMessage(resolve.sender, {text: "「「  👸🏾 *Alita Bot* 」」\n\n 😒 Couldn't Fetch Premier League Data. "}, {quoted: m})
             })    
         } catch (error) {
-            sock.sendMessage(m.key.remoteJid, {text: "「「  👸🏾 *Alita Bot* 」」\n\n 😒 Couldn't Fetch Premier League Data. "}, {quoted: m}) 
+            sock.sendMessage(resolve.sender, {text: "「「  👸🏾 *Alita Bot* 」」\n\n 😒 Couldn't Fetch Premier League Data. "}, {quoted: m}) 
         }
     }
 }

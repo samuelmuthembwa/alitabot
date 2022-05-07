@@ -8,6 +8,7 @@ module.exports = {
         else{
             try {
                 let link = "https://www.musixmatch.com/search/"+resolve.args;
+                console.log(resolve.args)
                 axios({
                     
                     method: 'get',

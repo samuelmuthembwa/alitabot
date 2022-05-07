@@ -1,5 +1,5 @@
 module.exports = {
-    async handleAlive(info, m, sock){
+    async handleAlive(resolve, m, sock){
         // send a buttons message with image header!
         const buttons = [
             {buttonId: 'alivebtncall', buttonText: {displayText: '📞 Contact'}, type: 1},
@@ -16,6 +16,6 @@ module.exports = {
             headerType: 4
         }
         
-        sock.sendMessage(m.key.remoteJid, buttonMessage,{quoted: m})
+        sock.sendMessage(resolve.sender, buttonMessage,{quoted: m})
 
 }}

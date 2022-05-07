@@ -1,29 +1,29 @@
-const request =  require("request")
-request.get({
-    url: 'https://api.api-ninjas.com/v1/celebrity?name='+"michael",
-    headers: {
-        'X-Api-key': 'co+5Rd3Fghuv2RJ/Y5ypZQ==JoO6zg4EUycfDrTy'
-    },
-},function(error, response, body){
-    if(error)
-    {
-        console.log( "👸🏾 Could not fetch celebrity's details.")
-    }
-    else if(response.statusCode == 200){
-        
-        if(body.length == 2 )
-        {
-            console.log( "👸🏾 Could not fetch celebrity's details.")
-        }
-        else{
-            
-            let info = JSON.parse(body)[0]
-            let name = info.name != "" || info.name != null || info.name != undefined ? info.name : "N/A";
-            let worth = info.net_worth !== "" || info.net_worth !== null || info.net_worth !== undefined ? info.net_worth : "N/A";
-            let gender = info.gender !== "" || info.gender !== null || info.gender !== undefined ? info.gender : "N/A";
-            let height = info.height !== "" || info.height !== null || info.gender !== undefined ? info.gender : "N/A";
-            let birthday = info.birthday !== "" || info.birthday !== null || info.birthday !== undefined ? info.birthday : "N/A";
-            console.log(`🌟 Name : ${name}\n🔥 Net worth: ${worth}\n🍀 Gender: ${gender}\n❄️ Height: ${height}\n🥂 Birthday: ${birthday}`)
-        }
-    }
-})
+// Imports the Google Cloud client library
+const textToSpeech = require('@google-cloud/text-to-speech');
+
+// Import other required libraries
+const fs = require('fs');
+const util = require('util');
+// Creates a client
+const client = new textToSpeech.TextToSpeechClient();
+async function quickStart() {
+  // The text to synthesize
+  const text = 'hello, world!';
+
+  // Construct the request
+  const request = {
+    input: {text: text},
+    // Select the language and SSML voice gender (optional)
+    voice: {languageCode: 'en-US', ssmlGender: 'NEUTRAL'},
+    // select the type of audio encoding
+    audioConfig: {audioEncoding: 'MP3'},
+  };
+
+  // Performs the text-to-speech request
+  const [response] = await client.synthesizeSpeech(request);
+  // Write the binary audio content to a local file
+  const writeFile = util.promisify(fs.writeFile);
+  await writeFile('output.mp3', response.audioContent, 'binary');
+  console.log('Audio content written to file: output.mp3');
+}
+quickStart();
