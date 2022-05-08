@@ -53,27 +53,27 @@ const graffiti = (style, name)=>{
             url = "https://textpro.me/create-wolf-logo-galaxy-online-936.html";
         break;
         default:
-            url =  "https://textpro.me/1917-style-text-effect-online-980.html"
+            url =  "options"
         break;
     }
     return new Promise((resolve, reject) => {
-        thiccysapi.textpro(url,
-        name
-        ).then(async (data) => { 
-            
-            try {
-                console.log(data) 
-                resolve({
-                    data
-                })
-                
-            } catch(err) { 
-                console.log(err)
-                reject('Err Downloading Graffiti')
-            } 
-            
-        
-        }); 
+        if(url == "options")
+        {
+
+        }else{
+            thiccysapi.textpro(url,name).then(async (data) => { 
+                try {
+                    console.log(data) 
+                    resolve({
+                        data
+                    })
+                } catch(err) { 
+                    console.log(err)
+                    reject('Err Downloading Graffiti')
+                } 
+            });
+        }
+ 
     })     
 }
 module.exports.graffiti = graffiti;
