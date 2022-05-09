@@ -24,7 +24,7 @@ module.exports = {
                         let info = JSON.parse(body)[0]
                         let record_type = info.record_type !== "" || info.record_type !== null || info.record_type !== undefined ? info.record_type : "N/A";
                         let value = info.value !== "" || info.value !== null || info.value !== undefined ? info.value : "N/A";
-                        sock.sendMessage(m.key.remoteJid, { text: `🔥 Value : ${value}\n🌟 Record Type: ${record_type}`}, {quoted: m})
+                        sock.sendMessage(resolve.sender, { text: `🔥 Value : ${value}\n🌟 Record Type: ${record_type}`}, {quoted: m})
                     }
 
                 }

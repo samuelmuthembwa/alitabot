@@ -1,5 +1,5 @@
 module.exports = {
-  async handleBets(info, m , sock){
+  async handleBets(sock, info, m){
     return new Promise((resolve, reject)=>{
       const axios = require("axios");
       const options = {

@@ -22,7 +22,7 @@ module.exports = {
                             sock.sendMessage(m.key.remoteJid, { text: "👸🏾 No celebrity's details that match."}, {quoted: m})
                         }
                         else{
-                            let info = body[0]
+                            let info = JSON.parse(body)[0]
                             let name = info.name !== "" || info.name !== null || info.name !== undefined ? info.name : "N/A";
                             let worth = info.net_worth !== "" || info.net_worth !== null || info.net_worth !== undefined ? info.net_worth : "N/A";
                             let gender = info.gender !== "" || info.gender !== null || info.gender !== undefined ? info.gender : "N/A";

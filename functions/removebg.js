@@ -2,7 +2,7 @@ const axios  = require('axios')
 const FormData = require("form-data")
 const fs = require("fs")
 const path = require("path")
-
+const { downloadContentFromMessage } = require ('@adiwajshing/baileys')
 module.exports = {
     async handleRemoveBg (sock, resolve, m){
         if(resolve.mimetype == "image")
@@ -48,7 +48,7 @@ module.exports = {
                                         sock.sendMessage(m.key.remoteJid, { text: "👸🏾 Internal Server Error."}, {quoted: m})
                                     }
                                 })
-                                sock.sendMessage(m.key.remoteJid,{ image: {url: './images/alitabot.jpeg'}, caption: "👸🏾 Alitabot Background Remover."}, {quoted: m})
+                                sock.sendMessage(m.key.remoteJid,{ image: {url: rmbgPath}, caption: "「「  👸🏾 *Alita Bot* 」」\n📸 Background Remover."}, {quoted: m})
                                 .then(()=>{
                                     try {
                                         fs.unlinkSync(imgpath)
@@ -72,7 +72,7 @@ module.exports = {
 
                 })
             } catch (error) {
-                console.log("3 ERR "+eror)
+                console.log("3 ERR "+error)
                 sock.sendMessage(m.key.remoteJid, { text: "👸🏾 Internal Server Error."}, {quoted: m})
             }
         }

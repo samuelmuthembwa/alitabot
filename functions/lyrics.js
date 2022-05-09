@@ -29,13 +29,13 @@ module.exports = {
                         sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 」」\n\n*Lyrics Search Engine*\n"+lyrics_data}, {quoted: m});
                     })
                     .catch((err)=>{
-                        sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 」」\n\n 😒 No Lyrics found."},{quoted: m})
+                        sock.sendMessage(m.key.remoteJid, {text:err+"「「  👸🏾 *Alita Bot* 」」\n\n 😒 No Lyrics found."},{quoted: m})
                     })
                 }).catch((err)=>{
-                    sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 」」\n\n 😒 No Lyrics found."},{quoted: m})
+                    sock.sendMessage(m.key.remoteJid, {text: err+"「「  👸🏾 *Alita Bot* 」」\n\n 😒 No Lyrics found."},{quoted: m})
                 })
             } catch (error) {
-                sock.sendMessage(m.key.remoteJid, {text:"「「  👸🏾 *Alita Bot* 」」\n\n 😒 No Lyrics found."},{quoted: m})
+                sock.sendMessage(m.key.remoteJid, {text: error+"「「  👸🏾 *Alita Bot* 」」\n\n 😒 No Lyrics found."},{quoted: m})
             }
         }
     }

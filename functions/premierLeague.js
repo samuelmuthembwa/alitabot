@@ -1,7 +1,8 @@
 const fs = require("fs")
 const axios = require("axios")
+const cheerio  = require("cheerio")
 module.exports = {
-    async handlePremierleague(resolve, m, sock){
+    async handlePremierleague(sock, resolve, m){
         try {
             let clubs = []
             let pts = []
@@ -32,7 +33,7 @@ module.exports = {
                 }
                 sock.sendMessage(resolve.sender, {text: data}, {quoted: m})
             })
-            .catch(()=>{
+            .catch((err)=>{
                 sock.sendMessage(resolve.sender, {text: "「「  👸🏾 *Alita Bot* 」」\n\n 😒 Couldn't Fetch Premier League Data. "}, {quoted: m})
             })    
         } catch (error) {

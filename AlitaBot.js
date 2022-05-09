@@ -29,15 +29,20 @@ const startSock = async() => {
         {
             if(m.key.fromMe == false)
             {
-				var resolve = await resolver.cleaner(m, sock)
-				if(resolve.isCmd && commands.includes(resolve.command))
-				{
-					commandHandler.commandHandler(resolve, m, sock)
-				}
-				if(resolve.mimetype == 'ex-text' &&resolve.quotedsender == '254734962640@s.whatsapp.net' )
-				{
-					await handleAi(m, sock, resolve)
-				}
+				resolver.cleaner(m, sock).then((resolve)=>{
+					if(resolve.isCmd && commands.includes(resolve.command))
+					{
+						commandHandler.commandHandler(resolve, m, sock)
+					}
+					if(resolve.mimetype == 'ex-text' && resolve.quotedsender == '254734962640@s.whatsapp.net' )
+					{
+						handleAi(m, sock, resolve)
+					}
+				})
+				.catch((err)=>{
+					console.log("AlitaBot.js Error: "+err)
+				})
+
             }
         }
         
@@ -54,16 +59,7 @@ const startSock = async() => {
 	sock.ev.on('connection.update', (update) => {
 		const { connection, lastDisconnect } = update
 		if(connection === 'close') {
-			// reconnect if not logged out
-			fs.unlink("auth_info_multi.json",(err)=>{
-				if(err)
-				{
-					console.log("Auth info not deleted")
-				}
-				console.log("\n\nBOT RESTARTED...\n\n")
-				startSock()
-			})
-			
+			startSock()
 		}
         
 		console.log('connection update', update)

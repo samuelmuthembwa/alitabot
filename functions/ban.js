@@ -30,12 +30,11 @@ module.exports = {
         try {
             if(resolve.args.length < 1)
             {
-                await sock.sendMessage(m.key.remoteJid, { text: `👻 No one to unban....😈`}, {quoted: m})
-
+                await sock.sendMessage(m.key.remoteJid, { text: `👻 No one to unban... `}, {quoted: m})
             }
             else{
             var tobeunBanned = resolve.args.replace("@","").replace(" ","")+"@s.whatsapp.net"
-            await sock.sendMessage(m.key.remoteJid, { text: `👸🏾 *The tagged user was unbanned by bot owner.😈`}, {quoted: m})
+            await sock.sendMessage(m.key.remoteJid, { text: `👸🏾 *The tagged user was unbanned by bot owner.* `}, {quoted: m})
             for( var i = 0; i < bannedUsers.length; i++){ 
     
                 if ( bannedUsers[i] === tobeunBanned) { 

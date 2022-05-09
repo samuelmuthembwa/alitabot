@@ -23,14 +23,14 @@ module.exports = {
                 }
                 tesseract.recognize(imgpath, config)
                 .then((txt)=>{
-                    sock.sendMessage(m.key.remoteJid, { text: txt}, {quoted: m})
+                    sock.sendMessage(resolve.sender, { text: txt}, {quoted: m})
                 })
                 .catch((er)=>{
-                    sock.sendMessage(m.key.remoteJid, { text: er}, {quoted: m})
+                    sock.sendMessage(resolve.sender, { text: er}, {quoted: m})
                 })
             })
            } catch (error) {
-            sock.sendMessage(m.key.remoteJid, { text: "👸🏾 Could not download image."}, {quoted: m})
+            sock.sendMessage(resolve.sender, { text: "👸🏾 Could not download image."}, {quoted: m})
            }
         }
     }

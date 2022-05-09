@@ -1,40 +1,40 @@
 module.exports = {
-    async handleRemove(info, m, sock){
-        if(info.isGroup == true)
+    async handleRemove(sock, resolve, m){
+        if(resolve.isGroup)
         {
-            if(info.groupAdmins.includes(info.botId)==false)
+            if(resolve.groupAdmins.includes(resolve.botId) == false)
             {
-                sock.sendMessage(m.key.remoteJid, { text: "👸🏾 I am not an admin yet."}, {quoted: m})
+                sock.sendMessage(resolve.sender, { text: "👸🏾 I am not an admin yet."}, {quoted: m})
             }
             let sender = m.key.participant;
-            if(info.groupAdmins.includes(sender)==false)
+            if(resolve.groupAdmins.includes(sender) == false)
             {
-                sock.sendMessage(m.key.remoteJid, { text: "🤹🏾 You are not an admin professor."}, {quoted: m})
+                sock.sendMessage(resolve.sender, { text: "🤹🏾 You are not admin. "}, {quoted: m})
             }
             
-            if(info.body.split(" ")< 2)
+            if(resolve.body.split(" ")< 2)
             {
-                sock.sendMessage(m.key.remoteJid, { text: "👸🏾 Tag the user to kick."}, {quoted: m})
+                sock.sendMessage(resolve.sender, { text: "👸🏾 Tag the user to kick."}, {quoted: m})
             }
             else
             {
-                if(info.groupAdmins.includes(info.botId)==true && info.groupAdmins.includes(sender)== true)
+                if(resolve.groupAdmins.includes(resolve.botId) == true && resolve.groupAdmins.includes(sender)== true)
                 {
                     try {
-                        sock.sendMessage(m.key.remoteJid, { text: "👸🏾Kicking user(s)."}, {quoted: m})
-                        for(var i =0; i< info.args.split(" ").length ;i++)
+                        sock.sendMessage(resolve.sender, { text: "👸🏾 Kicking user(s)."}, {quoted: m})
+                        for(var i =0; i< resolve.args.split(" ").length;i++)
                         {
-                            var tobeKicked = info.args.replace("@","").replace(" ","")+"@s.whatsapp.net"
+                            var tobeKicked = resolve.args.replace("@","").replace(" ","")+"@s.whatsapp.net"
                             console.log("Remove fun4"+ tobeKicked)
-                            const response = await sock.groupParticipantsUpdate(
-                                info.sender, 
+                            sock.groupParticipantsUpdate(
+                                resolve.sender, 
                                 [tobeKicked],
                                 "remove" 
                             )
 
                         }  
                     } catch (error) {
-                        sock.sendMessage(m.key.remoteJid, { text: "👸🏾 Could not remove user."}, {quoted: m})
+                        sock.sendMessage(resolve.sender, { text: "👸🏾 Could not remove user."}, {quoted: m})
                     }
                 }
             }
