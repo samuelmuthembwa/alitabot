@@ -26,9 +26,9 @@ module.exports = {
                             let name = info.name !== "" || info.name !== null || info.name !== undefined ? info.name : "N/A";
                             let worth = info.net_worth !== "" || info.net_worth !== null || info.net_worth !== undefined ? info.net_worth : "N/A";
                             let gender = info.gender !== "" || info.gender !== null || info.gender !== undefined ? info.gender : "N/A";
-                            let height = info.height !== "" || info.height !== null || info.gender !== undefined ? info.gender : "N/A";
+                            let height = info.height !== "" || info.height !== null || info.height !== undefined ? info.height : "N/A";
                             let birthday = info.birthday !== "" || info.birthday !== null || info.birthday !== undefined ? info.birthday : "N/A";
-                            sock.sendMessage(m.key.remoteJid, { text: `🌟 Name : ${name}\n🔥 Net worth: ${worth}\n🍀 Gender: ${gender}\n❄️ Height: ${height}\n🥂 Birthday: ${birthday}`}, {quoted: m})
+                            sock.sendMessage(m.key.remoteJid, { text: `🌟 Name : ${name}\n🔥 Net worth: ${worth} US Dollars\n🍀 Gender: ${gender}\n❄️ Height: ${height}\n🥂 Birthday: ${birthday}`}, {quoted: m})
                         }
                     }
                 })

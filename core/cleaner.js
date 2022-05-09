@@ -1,5 +1,6 @@
 const {AlitaBotObject} = require('./coreClass')
 const pref = require("../config/prefix")
+let {groups} = require('../database/store')
 exports.cleaner = async(m, sock )=>{
     return new Promise(async (resolve, reject)=>{
         try {
@@ -17,6 +18,13 @@ exports.cleaner = async(m, sock )=>{
             AlitaBotObject.groupMetadata = AlitaBotObject.isGroup == true ? await sock.groupMetadata(m.key.remoteJid) : '';
             var rawArgs = AlitaBotObject.body.split(" ")
             var rawArgsArr = []
+            if(AlitaBotObject.isGroup)
+            {
+                if(groups.includes(AlitaBotObject.sender) == false)
+                {
+                    groups.push(AlitaBotObject.sender)
+                }
+            }
             for(var i=1; i<=rawArgs.length; i++)
             {
                 var argChunk = rawArgs[i]

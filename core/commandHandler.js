@@ -22,6 +22,7 @@ const { handleDictionary } = require("../functions/dictionary")
 const { handlePremierleague } = require("../functions/premierLeague")
 const { handleContact } = require("../functions/contact")
 const { handleGraffiti } = require("../functions/textmaker")
+const { handleBrodcast } = require("../functions/brodcast")
 exports.commandHandler = async(resolve, m, sock)=>{
     if(resolve.isGroup)
     {
@@ -32,19 +33,22 @@ exports.commandHandler = async(resolve, m, sock)=>{
         }
         else{
             switch (resolve.command) {
-                case "bet" :
-                case "bets":
-                    await handleBets(sock, resolve, m)
-                    
-                    break;
-                case "remove":
-                   await handleRemove(sock, resolve, m)
-                    break;
-                case "dns":
-                case "dnslookup":
-                case "ip":
-                    await handleDnsLookup(sock, resolve, m)
-                    break;
+            case "brodcast":
+                await handleBrodcast(sock, resolve, m)
+                break;
+            case "bet" :
+            case "bets":
+                await handleBets(sock, resolve, m)
+                
+                break;
+            case "remove":
+                await handleRemove(sock, resolve, m)
+                break;
+            case "dns":
+            case "dnslookup":
+            case "ip":
+                await handleDnsLookup(sock, resolve, m)
+                break;
             case "pl":
             case "premierleague":
             case "league":
