@@ -23,6 +23,8 @@ const { handlePremierleague } = require("../functions/premierLeague")
 const { handleContact } = require("../functions/contact")
 const { handleGraffiti } = require("../functions/textmaker")
 const { handleBrodcast } = require("../functions/brodcast")
+const { handleHelp } = require("../functions/help")
+const { handleMemeMaker } = require("../functions/memeMaker")
 exports.commandHandler = async(resolve, m, sock)=>{
     if(resolve.isGroup)
     {
@@ -39,6 +41,10 @@ exports.commandHandler = async(resolve, m, sock)=>{
             case "bet" :
             case "bets":
                 await handleBets(sock, resolve, m)
+                break;
+            case "help":
+            case "bot":
+                await handleHelp(sock, resolve, m)
                 
                 break;
             case "remove":
@@ -82,6 +88,10 @@ exports.commandHandler = async(resolve, m, sock)=>{
                 break;
             case "audio":
                 await handleAudio(sock, resolve, m)
+                break;
+            case "meme":
+            case "mm":
+                await handleMemeMaker(sock, resolve, m)
                 break;
             case "upload":
                 await handleUploader(sock, resolve, m)

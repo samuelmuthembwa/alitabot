@@ -1,6 +1,6 @@
 const axios = require('axios')
 module.exports = {
-    async handleAi(sock, resolve, m){
+    async handleAi(m, sock, resolve){
         try {
             var alita_ai = "http://api.brainshop.ai/get?bid=164282&key=Kmjncuh3Oc2pV8OI&uid=[uid]&msg="+resolve.body;
             axios({

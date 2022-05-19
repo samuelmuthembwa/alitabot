@@ -34,10 +34,12 @@ const startSock = async() => {
 					{
 						commandHandler.commandHandler(resolve, m, sock)
 					}
-					if(resolve.mimetype == 'ex-text' && resolve.quotedsender == '254734962640@s.whatsapp.net' )
+				}).then((resolve)=>{
+					if (resolve.mimetype == 'ex-text' && resolve.quotedsender == '254734962640@s.whatsapp.net' )
 					{
 						handleAi(m, sock, resolve)
 					}
+				
 				})
 				.catch((err)=>{
 					console.log("AlitaBot.js Error: "+err)
