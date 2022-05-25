@@ -1,20 +1,15 @@
-const { Boom } = require('@hapi/boom') 
 const commands = require("./config/commands")
 const resolver = require('./core/cleaner')
 const commandHandler = require("./core/commandHandler")
-const axios = require("axios");
-const P =require('pino') 
-const fs = require('fs')
 const makeWASocket = require('@adiwajshing/baileys').default;
-const  { AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, useSingleFileAuthState, MessageType, MessageOptions, Mimetype } =require('@adiwajshing/baileys');
+const  { fetchLatestBaileysVersion, useSingleFileAuthState } =require('@adiwajshing/baileys');
 const banner = require("./core/banner")
 const { state, saveState } = useSingleFileAuthState('./auth_info_multi.json')
 //Functions Import
-const {live} = require("./functions/liveGames");
 const { handleAi } = require('./functions/Ai');
 // start a connection
 const startSock = async() => {
-	const { version, isLatest } = await fetchLatestBaileysVersion()
+	const { version } = await fetchLatestBaileysVersion()
     console.log(banner);
 	const sock = makeWASocket({
 		version,
@@ -23,11 +18,11 @@ const startSock = async() => {
         browser: ["AlitaBot v2.0"]
 	})
     sock.ev.on('messages.upsert', async ({ messages }) => {
-        const m = messages[0];
-		console.log(JSON.stringify(m))
+        let m = messages[0];
+		// console.log(JSON.stringify(m))
         if(m.message != undefined && m.message != null)
         {
-            if(m.key.fromMe == false)
+            if(m.key.fromMe == false)                           
             {
 				resolver.cleaner(m, sock).then((resolve)=>{
 					if(resolve.isCmd && commands.includes(resolve.command))
@@ -50,16 +45,18 @@ const startSock = async() => {
         
     })
 
+	lourem
+
 	// sock.ev.on('message-receipt.update', m => console.log(m))
 	// sock.ev.on('presence.update', m => console.log(m))
 	// sock.ev.on('chats.upsert', m => console.log(m))
 	// sock.ev.on('contacts.upsert', m => console.log(m))
 
-
+//  this is a conection update
 
     //Connection Update
 	sock.ev.on('connection.update', (update) => {
-		const { connection, lastDisconnect } = update
+		const { connection } = update
 		if(connection === 'close') {
 			startSock()
 		}

@@ -1,7 +1,7 @@
 const {AlitaBotObject} = require('./coreClass')
 const pref = require("../config/prefix")
 let {groups} = require('../database/store')
-exports.cleaner = async(m, sock )=>{
+exports.cleaner = async(m, sock ) => {
     return new Promise(async (resolve, reject)=>{
         try {
             AlitaBotObject.isGroup = m.key.remoteJid.split("@")[1] == "g.us" ? true : false;
