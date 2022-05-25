@@ -29,7 +29,6 @@ const startSock = async() => {
 					{
 						commandHandler.commandHandler(resolve, m, sock)
 					}
-				}).then((resolve)=>{
 					if (resolve.mimetype == 'ex-text' && resolve.quotedsender == '254734962640@s.whatsapp.net' )
 					{
 						handleAi(m, sock, resolve)
@@ -45,7 +44,7 @@ const startSock = async() => {
         
     })
 
-	lourem
+	
 
 	// sock.ev.on('message-receipt.update', m => console.log(m))
 	// sock.ev.on('presence.update', m => console.log(m))
