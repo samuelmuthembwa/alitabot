@@ -45,7 +45,7 @@ const startSock = async() => {
         
     })
 
-	lourem
+
 
 	// sock.ev.on('message-receipt.update', m => console.log(m))
 	// sock.ev.on('presence.update', m => console.log(m))
